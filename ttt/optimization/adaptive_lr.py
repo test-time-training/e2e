@@ -324,18 +324,7 @@ if __name__ == "__main__":
         state, dummy_grads, dummy_params, dummy_loss
     )
     
-    print(f"Step {metrics['step']}: Loss={metrics['loss']:.4f}, Avg LR={metrics['avg_lr']:.6f}")       
-"""
-Integration module for Adaptive Learning Rate Scheduling in E2E TTT framework.
-Drop this into ttt/optimization/adaptive_lr.py
-"""
-
-import jax
-import jax.numpy as jnp
-from flax import struct
-from typing import Dict, Any, Optional, Tuple
-from dataclasses import dataclass
-
+    print(f"Step {metrics['step']}: Loss={metrics['loss']:.4f}, Avg LR={metrics['avg_lr']:.6f}")   
 
 @dataclass
 class AdaptiveLRConfig:
