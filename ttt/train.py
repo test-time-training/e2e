@@ -32,13 +32,9 @@ logger.setLevel(logging.INFO)
 
 def _prepare_data_parallelism(cfg: Config, global_dev_num: int) -> int:
     if cfg.training.n_data_parallel is None:
-        assert (
-            global_dev_num % cfg.training.n_state_parallel == 0
-        ), "Number of devices must be divisible by state parallelism"
+        assert global_dev_num % cfg.training.n_state_parallel == 0, "Number of devices must be divisible by state parallelism"
         cfg.training.n_data_parallel = global_dev_num // cfg.training.n_state_parallel
-    assert (
-        cfg.training.n_data_parallel * cfg.training.n_state_parallel == global_dev_num
-    ), (
+    assert cfg.training.n_data_parallel * cfg.training.n_state_parallel == global_dev_num, (
         f"Data parallelism ({cfg.training.n_data_parallel}) and state parallelism ({cfg.training.n_state_parallel}) must match the number of devices ({global_dev_num})"
     )
     return cfg.training.n_data_parallel
@@ -67,9 +63,7 @@ def _make_train_iterator(cfg: Config, model_cfg, data_sharding: jax.sharding.Sha
     )
 
     def load_to_sharded_array(arr):
-        return jax.make_array_from_process_local_data(
-            sharding=data_sharding, local_data=arr, global_shape=(cfg.training.global_batch_size, *arr.shape[1:])
-        )
+        return jax.make_array_from_process_local_data(sharding=data_sharding, local_data=arr, global_shape=(cfg.training.global_batch_size, *arr.shape[1:]))
 
     def to_sharded_batch(batch):
         batch = jax.tree.map(lambda x: load_to_sharded_array(x), batch)
@@ -252,10 +246,7 @@ def _main(cfg: Config) -> None:
 
             wandb_logger.log(update, step)
 
-            if (
-                (cfg.training.save_milestone_freq > 0 and step % cfg.training.save_milestone_freq == 0 and step != 0)
-                or (step == cfg.training.total_steps - 1)
-            ):
+            if (cfg.training.save_milestone_freq > 0 and step % cfg.training.save_milestone_freq == 0 and step != 0) or (step == cfg.training.total_steps - 1):
                 master_log(logger, f"Saving checkpoint at step {step}, do not kill...")
                 is_milestone = (cfg.training.save_milestone_freq > 0) and (step % cfg.training.save_milestone_freq == 0)
 

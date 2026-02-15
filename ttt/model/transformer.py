@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from copy import deepcopy
 from enum import StrEnum, auto
 from functools import partial
 
@@ -667,12 +666,12 @@ class MetaModel(eqx.Module):
             block_collection=block_collection,
             prime_storage=prime_storage,
             key=jrandom.PRNGKey(0),
-        ) 
+        )
 
         state_prefix_suffix = state.substate(self.language_model.model.h.blocks)
 
         state_prefix, state_suffix = BlockCollectionSplit.split_state(state_prefix_suffix, cfg.model.suffix_len)
-        state_all = clone_pytree(state) 
+        state_all = clone_pytree(state)
 
         self: MetaModel = eqx.tree_at(lambda m: m.language_model.model.h, self, new_collection)
 

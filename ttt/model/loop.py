@@ -17,7 +17,7 @@ from ttt.infra.wandb_utils import WandbLogger
 from ttt.model.data import Batch
 from ttt.model.transformer import MetaModel
 from ttt.optimizers import make_optimizer
-from ttt.utils.filter_utils import filter_apply_updates, get_filter_spec
+from ttt.utils.filter_utils import filter_apply_updates
 from ttt.utils.jax_utils import global_norm_safe, master_log, tree_rearrange, vmap_mean, welfords_online_mean
 
 logger = logging.getLogger(__name__)

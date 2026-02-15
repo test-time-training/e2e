@@ -36,9 +36,8 @@ class WandbLogger:
         Initialize logger. No-op if calling process is not master.
         We now initialize immediately here rather than in a separate function.
         """
-        from wandb.sdk.wandb_settings import Settings
-
         import wandb
+        from wandb.sdk.wandb_settings import Settings
 
         self.wandb = wandb
         self.is_master = jax.process_index() == logging_process

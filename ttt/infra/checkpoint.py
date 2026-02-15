@@ -126,10 +126,10 @@ class Checkpointer:
         model_weights_metadata = self.manager.item_metadata(step)["model_weights"]
         model_weights_target = fetch_from_eqx_module(model_weights_metadata, targets["model_weights"])[0]
 
-        opt_state_metadata = self.manager.item_metadata(step)["opt_state"]
-        opt_state_target = fetch_from_eqx_module(opt_state_metadata, targets["opt_state"])[0]
-
         if restore == TrainingConfig.LoadPart.all:
+            opt_state_metadata = self.manager.item_metadata(step)["opt_state"]
+            opt_state_target = fetch_from_eqx_module(opt_state_metadata, targets["opt_state"])[0]
+
             restored = self.manager.restore(
                 step=step,
                 args=ocp.args.Composite(

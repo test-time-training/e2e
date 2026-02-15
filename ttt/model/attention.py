@@ -107,7 +107,7 @@ class AttentionBase(eqx.Module):
                 self.config,
                 in_features=embed_dim,
                 out_features=embed_dim,
-                std=config.initializer_range, 
+                std=config.initializer_range,
                 key=w_key,
                 name=name,
             )
@@ -127,7 +127,7 @@ class AttentionBase(eqx.Module):
                 self.head_dim,
                 2 * self.config.seq_len,
                 theta=self.config.rope_theta,
-                dtype=jnp.float32, 
+                dtype=jnp.float32,
             )
 
         return freqs_cis
@@ -279,7 +279,7 @@ class SWA(AttentionBase):
         self.chunk_index = nn.StateIndex(jnp.array(0, dtype=jnp.int32))
 
     def init_kv_cache(self):
-        return ( 
+        return (
             jnp.zeros((self.window_size, self.config.hidden_size), dtype=self.compute_dtype),
             jnp.zeros((self.window_size, self.config.hidden_size), dtype=self.compute_dtype),
         )
@@ -347,9 +347,7 @@ class SWA(AttentionBase):
 
         new_kv_cache = self._merge_heads((xk[-self.window_size :], xv[-self.window_size :]))  # [WS,D]
 
-        xq = self.apply_rope(
-            xq, position_ids=jnp.arange((self.window_size + self.mini_batch_size), dtype=jnp.int32)[-self.mini_batch_size :]
-        )
+        xq = self.apply_rope(xq, position_ids=jnp.arange((self.window_size + self.mini_batch_size), dtype=jnp.int32)[-self.mini_batch_size :])
         xk = self.apply_rope(xk, position_ids=jnp.arange((self.window_size + self.mini_batch_size), dtype=jnp.int32))
 
         chunk_id = state.get(self.chunk_index)

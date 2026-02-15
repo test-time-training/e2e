@@ -1,5 +1,3 @@
-from typing import Literal
-
 import grain.python as grain
 import jax
 import numpy as np
@@ -138,4 +136,3 @@ def dummy_dataset(
 
     dataset = dataset[shard_index::shard_count]
     return dataset
-

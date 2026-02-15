@@ -2,6 +2,7 @@
 [**Paper**](https://test-time-training.github.io/e2e.pdf)
 | [**Setup**](#setup)
 | [**Replicating Experiments**](#replicating-experiments)
+| [**Model Checkpoints**](#model-checkpoints)
 
 ## Abstract
 
@@ -91,5 +92,35 @@ To initialize an extension run from a previous experiment, set:
 
 On startup, the trainer will automatically locate the latest checkpoint in the experiment directory and restore it before beginning training.
 
+## Model Checkpoints
+We release a small set of checkpoints from the experiments in our paper. **Note:** this bucket has
+[Requester Pays](https://cloud.google.com/storage/docs/requester-pays) enabled.
 
+### Pre-trained (DCLM)
 
+- **125M TTT-E2E (1× Chinchilla)** — DCLM @ **8K** context  
+  [`gs://ttt-e2e-checkpoints/125m_ttt_e2e_pretrain_dclm_8k_1x_cc`](gs://ttt-e2e-checkpoints/125m_ttt_e2e_pretrain_dclm_8k_1x_cc)
+
+- **1B TTT-E2E (1× Chinchilla)** — DCLM @ **8K** context  
+  [`gs://ttt-e2e-checkpoints/1b_ttt_e2e_pretrain_dclm_8k_1x_cc`](gs://ttt-e2e-checkpoints/1b_ttt_e2e_pretrain_dclm_8k_1x_cc)
+
+- **3B TTT-E2E (3× Chinchilla)** — DCLM @ **8K** context  
+  [`gs://ttt-e2e-checkpoints/3b_ttt_e2e_pretrain_dclm_8k_3x_cc`](gs://ttt-e2e-checkpoints/3b_ttt_e2e_pretrain_dclm_8k_3x_cc)
+
+### Extension fine-tuned (Books)
+
+- **125M TTT-E2E (1× Chinchilla)** — Books @ **8K** context  
+  [`gs://ttt-e2e-checkpoints/125m_ttt_e2e_finetune_books_8k_1x_cc`](gs://ttt-e2e-checkpoints/125m_ttt_e2e_finetune_books_8k_1x_cc)
+
+- **1B TTT-E2E (1× Chinchilla)** — Books @ **8K** context  
+  [`gs://ttt-e2e-checkpoints/1b_ttt_e2e_finetune_books_8k_1x_cc`](gs://ttt-e2e-checkpoints/1b_ttt_e2e_finetune_books_8k_1x_cc)
+
+- **3B TTT-E2E (3× Chinchilla)** — Books @ **8K** context  
+  [`gs://ttt-e2e-checkpoints/3b_ttt_e2e_finetune_books_8k_3x_cc`](gs://ttt-e2e-checkpoints/3b_ttt_e2e_finetune_books_8k_3x_cc)
+
+- **3B TTT-E2E (3× Chinchilla)** — Books @ **128K** context  
+  [`gs://ttt-e2e-checkpoints/3b_ttt_e2e_finetune_books_128k_3x_cc`](gs://ttt-e2e-checkpoints/3b_ttt_e2e_finetune_books_128k_3x_cc)
+
+For usage, see [Loading a model for extension](#loading-a-model-for-extension). Optimizer state isn’t included, so `training.load_part=params` must be used.
+
+If you’d like a checkpoint from another experiment in the paper, feel free to email us.
